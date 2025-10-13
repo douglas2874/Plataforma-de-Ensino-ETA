@@ -1,7 +1,12 @@
-from Firestore.firestore_functions import adicionar_aluno, listar_alunos
+from Firestore.firestore_setup import db # Conexão já inicializada 
+from Firestore.firestore_functions import criar_usuario # Função para criar usuários
 
-# Teste simples
-novo_aluno = {"nome": "Douglas", "idade": 21}
-adicionar_aluno(novo_aluno)
-
-print(listar_alunos)
+# Chamada da função
+usuario_id = criar_usuario(
+    db = db,
+    nome = "Douglas Borges",
+    idade = "21",
+    email="douglasborgestaj@gmail.com",
+    papel="coordenador",
+    turma_id="turma_01"
+)
