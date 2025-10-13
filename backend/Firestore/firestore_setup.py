@@ -5,7 +5,7 @@ from firebase_admin import credentials, firestore
 
 # Inicializa o Firebase 
 # "Certificate" converte a chave em um objeto credencial para ser usado pelo "credential" para validar o acesso
-cred = credentials.Certificate("backend/firestore_key.json")
+cred = credentials.Certificate("firestore_key.json")
 # ".initialize_app(cred)" acessa o firestore e o banco de dados usando a credencial criada 
 firebase_admin.initialize_app(cred)
 
