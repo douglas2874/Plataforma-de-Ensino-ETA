@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify 
- #Importa as principais ferramentas do flask respectivamente para criar aplicação, acessa as requisições enviadas pelo cliente, converte dados do python para formato JSON e gera a resposta HTTP
+ #Importa as principais ferramentas do flask respectivamente para criar aplicação, acessar as requisições enviadas pelo cliente, converter dados do python para formato JSON e gerar a resposta HTTP
 from Firestore.firestore_setup import db
  #Importa variável com a ferramenta que permite manipular o banco de dados
-from Firestore.firestore_functions import criar_usuario
+from Firestore.firestore_functions import criar_usuario, criar_turma, criar_aula, criar_atividade
  #Importa a função responsável por criar usuários 
 
 app = Flask(__name__)
@@ -43,3 +43,36 @@ def criar_usuario_endpoint():
             "status": "erro",
             "mensagem": str(e)
         }), 500
+
+
+# Rota para criar turma 
+@app.route("/criar_turma", methods = ["POST"])
+ # Usa o objeto criado "app" para criar a rota da função com o end point 
+
+def criar_turma_endpoint():
+    try:
+        # Captura o JSON enviado pelo front
+        dados = request.get_json()
+        nome = dados.get("nome")
+        professor_id = dados.get("professor_id")
+
+        # Valida campos obrigatórios 
+        if not nome or not professor_id:
+            return jsonify({
+                "status": "erro",
+                "mensagem": "Campos 'nome' e 'professor_id' são obrigatórios."
+            }), 400
+        
+        # Chama a função de criação de turma
+        turma_id = criar_turma(db, nome, professor_id)
+
+        # Retorna resposta JSON
+        return jsonify({
+            "status": "sucesso",
+            "mensagem": f"Turma '{nome}' criada com sucesso!",
+            "turma_id": turma_id
+        }), 201
+    
+    except ValueError as ve:
+        # Erro específico de validação (ex: professor inexistente)
+        return jsonify({ "status": "erro", "mensagem": "str(ve)"}), 500

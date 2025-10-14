@@ -39,7 +39,7 @@ def criar_usuario(db, nome, idade, email, papel, turma_id=None):
 def criar_turma(db, nome, professor_id):
 
     # Valida se o professor existe e tem o papel correto
-    professor_ref = db.collection("Usuarios").document(professor_id).get
+    professor_ref = db.collection("Usuarios").document(professor_id).get()
     if not professor_ref.exists:
         raise ValueError(f"Professor com ID {professor_id} não existe.")
     if professor_ref.to_dict().get("papel") != "professor":
@@ -60,6 +60,7 @@ def criar_turma(db, nome, professor_id):
     print(f"✅ Turma '{nome}' criada com ID: {turma_id}")
     return turma_id
 
+
 def criar_aula (db, titulo, descricao, videoUrl, professor_id, turma_id):
     
     # Valida se o professor existe e tem o papel correto
@@ -67,14 +68,14 @@ def criar_aula (db, titulo, descricao, videoUrl, professor_id, turma_id):
     if not professor_ref.exist:
         raise ValueError(f"O usuário com ID {professor_id} não existe.")
     if professor_ref.to_dict().get("papel") != "professor":
-        raise ValueError(f"O usuário com ID {professor_id}")
+        raise ValueError(f"O usuário com ID {professor_id} não é um professor ")
     
     # Verifica se a turma existe
     turma_ref = db.collection("Turmas").document("turma_id").get()
     if not turma_ref.exists:
         raise ValueError(f"A turma com o ID {turma_id} não existe.")
     
-    # Cria ou acessa a coleção e cria a referencia do documento com ID aleatório
+    # Cria ou acessa a coleção, cria a referencia do documento com ID aleatório
     aula_ref = db.collection("Aulas").document()
     aula_id = aula_ref.id
 
@@ -87,4 +88,42 @@ def criar_aula (db, titulo, descricao, videoUrl, professor_id, turma_id):
         "turma_id": turma_id,
         "dataPostagem": datetime.now().isoformat() #ISO 8601 (ex: 20225-10-14T21:34:00)
     })
+
+    print(f"Aula '{titulo} criada com o ID: {aula_id}'")
+    return aula_id
+
     
+def criar_atividade (db, titulo, descricao, arquivoUrl, professor_id, turma_id, data_entrega):
+    
+    # Valida se o professor existe e tem o papel correto
+    professor_ref = db.collection("Usuarios").document("professor_id").get()
+    if not professor_ref.exist:
+        raise ValueError(f"O usuário com ID {professor_id} não existe.")
+    if professor_ref.to_dict().get("papel") != "professor":
+        raise ValueError(f"O usuário com ID {professor_id} não é um professor.")
+    
+    # Verifica se a turma existe 
+    turma_ref = db.collection("Turma").document("turma_id").get()
+    if not turma_ref.exists:
+        raise ValueError(f"A turma com ID {turma_id} não existe.")
+    
+    # Cria ou acessa a coleção, cria a referencia do documento com ID aleatório
+    atividade_ref = db.collection("Atividades").document()
+    atividade_id = atividade_ref.id
+    
+    # Define os dados que serão preenchidos no cadastro das atividades 
+    atividade_ref.set({
+        "titulo": titulo,
+        "descricao": descricao,
+        "arquivoUrl": arquivoUrl,
+        "professor_id": professor_id,
+        "turma_id": turma_id,
+        "data_Entrega": data_entrega,                   # Inserida manualmente via Front
+        "data_Postagem": datetime.now().isoformat()     # gerada automaticamente
+    })
+
+    print (f" Atividade '{titulo}' criada com ID: {atividade_id}")
+    return atividade_id
+
+
+
