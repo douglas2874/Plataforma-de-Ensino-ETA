@@ -1,6 +1,8 @@
 from Firestore.firestore_setup import db
+from datetime import datetime 
 
 
+#Função para criar usuários 
 def criar_usuario(db, nome, idade, email, papel, turma_id=None):
 
     # Valida se o papel escolhido existe
@@ -33,6 +35,7 @@ def criar_usuario(db, nome, idade, email, papel, turma_id=None):
     return usuario_id
 
 
+#Função para criar turmas 
 def criar_turma(db, nome, professor_id):
 
     # Valida se o professor existe e tem o papel correto
@@ -56,3 +59,32 @@ def criar_turma(db, nome, professor_id):
 
     print(f"✅ Turma '{nome}' criada com ID: {turma_id}")
     return turma_id
+
+def criar_aula (db, titulo, descricao, videoUrl, professor_id, turma_id):
+    
+    # Valida se o professor existe e tem o papel correto
+    professor_ref = db.collection("Usuarios").documente(professor_id).get()
+    if not professor_ref.exist:
+        raise ValueError(f"O usuário com ID {professor_id} não existe.")
+    if professor_ref.to_dict().get("papel") != "professor":
+        raise ValueError(f"O usuário com ID {professor_id}")
+    
+    # Verifica se a turma existe
+    turma_ref = db.collection("Turmas").document("turma_id").get()
+    if not turma_ref.exists:
+        raise ValueError(f"A turma com o ID {turma_id} não existe.")
+    
+    # Cria ou acessa a coleção e cria a referencia do documento com ID aleatório
+    aula_ref = db.collection("Aulas").document()
+    aula_id = aula_ref.id
+
+    # Define os dados que serão preenchidos no cadastro das aulas 
+    aula_ref.set({
+        "titulo": titulo,
+        "descricao": descricao,
+        "videoUrl": videoUrl,
+        "professor_id": professor_id,
+        "turma_id": turma_id,
+        "dataPostagem": datetime.now().isoformat() #ISO 8601 (ex: 20225-10-14T21:34:00)
+    })
+    
