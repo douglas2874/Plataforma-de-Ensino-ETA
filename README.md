@@ -105,4 +105,4 @@ Contribuições são bem-vindas\! Se você tiver sugestões ou quiser contribuir
 
 ## 👤 Autor
 
-  * **[Douglas Borges e João Victore Lírio ]** 
+  * **[Douglas Borges e João Victor Lírio ]** 

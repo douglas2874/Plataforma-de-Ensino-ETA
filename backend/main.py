@@ -76,3 +76,4 @@ def criar_turma_endpoint():
     except ValueError as ve:
         # Erro específico de validação (ex: professor inexistente)
         return jsonify({ "status": "erro", "mensagem": "str(ve)"}), 500
+    
