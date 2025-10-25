@@ -1,9 +1,12 @@
 from Firestore.firestore_setup import db
 from datetime import datetime 
+import bcrypt 
 
 
 #Função para criar usuários 
-def criar_usuario(db, nome, idade, email, papel, turma_id=None):
+def criar_usuario(db, nome, idade, email, senha, papel, turma_id=None):
+
+    senha_hash = bcrypt.hashpw(senha.encode("utf-8"), bcrypt.gensalt())
 
     # Valida se o papel escolhido existe
     papeis_validos = ["aluno", "professor", "coordenador"]
@@ -21,6 +24,7 @@ def criar_usuario(db, nome, idade, email, papel, turma_id=None):
         "nome": nome,
         "idade": idade,
         "email": email,
+        "senha": senha_hash.decode("utf-8"),
         "papel": papel,
         "turmaId": turma_id
     })
