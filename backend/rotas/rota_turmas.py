@@ -4,7 +4,7 @@ from Firestore.firestore_functions import criar_turma
 
 
 # Criar um blueprint (Um grupo de rotas)
-turma_bp = Blueprint("/turma", __name__)
+turma_bp = Blueprint("turma", __name__, url_prefix="/turma")
 
 @turma_bp.route("/criar_turma", methods=["POST"])
 

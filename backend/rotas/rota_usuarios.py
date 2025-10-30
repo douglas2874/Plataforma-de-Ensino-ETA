@@ -10,6 +10,11 @@ def criar_usuario_endpoint():
 
     try:
 
+        # Diagnóstico - ver o que realmente chega do Postman
+        print(" Content-Type recebido:", request.content_type)
+        print(" Corpo bruto (request.data):", request.data)
+        print(" get_json(silent=True):", request.get_json(silent=True))
+
         #Captura os dados JSON enviados pelo front-end e armazena em 'dados'.
         dados = request.get_json(force=True, silent=True)
         print("🔹 Dados recebidos:", dados)

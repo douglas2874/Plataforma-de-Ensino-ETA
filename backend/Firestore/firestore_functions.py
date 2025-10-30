@@ -2,6 +2,18 @@ from Firestore.firestore_setup import db
 from datetime import datetime 
 import bcrypt 
 
+#função teste
+def criar_teste(db,teste):
+    
+    teste_ref= db.collettion("Teste").document()
+    teste_ref.set({
+        "teste": teste
+    })
+
+    teste_id = teste_ref.id
+    print(f"Teste criado com sucesso com id {teste_id} ")
+    return teste_id
+
 
 #Função para criar usuários 
 def criar_usuario(db, nome, idade, email, senha, papel, turma_id=None):
@@ -9,6 +21,7 @@ def criar_usuario(db, nome, idade, email, senha, papel, turma_id=None):
     senha_hash = bcrypt.hashpw(senha.encode("utf-8"), bcrypt.gensalt())
 
     # Valida se o papel escolhido existe
+    
     papeis_validos = ["aluno", "professor", "coordenador"]
     if papel not in papeis_validos:
         raise ValueError(f"Papel inválido: {papel}. Deve ser um dos {papeis_validos}")
