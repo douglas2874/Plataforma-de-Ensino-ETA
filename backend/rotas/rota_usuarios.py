@@ -10,7 +10,7 @@ def criar_usuario_endpoint():
 
     try:
 
-        # Diagnóstico - ver o que realmente chega do Postman
+        # Diagnóstico - ver o que realmente chega da requisição
         print(" Content-Type recebido:", request.content_type)
         print(" Corpo bruto (request.data):", request.data)
         print(" get_json(silent=True):", request.get_json(silent=True))

@@ -39,7 +39,7 @@ def criar_usuario(db, nome, idade, email, senha, papel, turma_id=None):
         "email": email,
         "senha": senha_hash.decode("utf-8"),
         "papel": papel,
-        "turmaId": turma_id
+        "turma_id": turma_id
     })
 
     usuario_id = usuario_ref.id # captura o ID gerado automaticamente 
@@ -56,7 +56,7 @@ def criar_usuario(db, nome, idade, email, senha, papel, turma_id=None):
 def criar_turma(db, nome, professor_id):
 
     # Valida se o professor existe e tem o papel correto
-    professor_ref = db.collection("Usuarios").document(professor_id).get()
+    professor_ref = db.collection("Usuários").document(professor_id).get()
     if not professor_ref.exists:
         raise ValueError(f"Professor com ID {professor_id} não existe.")
     if professor_ref.to_dict().get("papel") != "professor":
@@ -81,14 +81,14 @@ def criar_turma(db, nome, professor_id):
 def criar_aula (db, titulo, descricao, videoUrl, professor_id, turma_id):
     
     # Valida se o professor existe e tem o papel correto
-    professor_ref = db.collection("Usuarios").documente(professor_id).get()
-    if not professor_ref.exist:
+    professor_ref = db.collection("Usuários").document(professor_id).get()
+    if not professor_ref.exists:
         raise ValueError(f"O usuário com ID {professor_id} não existe.")
     if professor_ref.to_dict().get("papel") != "professor":
         raise ValueError(f"O usuário com ID {professor_id} não é um professor ")
     
     # Verifica se a turma existe
-    turma_ref = db.collection("Turmas").document("turma_id").get()
+    turma_ref = db.collection("Turmas").document(turma_id).get()
     if not turma_ref.exists:
         raise ValueError(f"A turma com o ID {turma_id} não existe.")
     
@@ -103,24 +103,24 @@ def criar_aula (db, titulo, descricao, videoUrl, professor_id, turma_id):
         "videoUrl": videoUrl,
         "professor_id": professor_id,
         "turma_id": turma_id,
-        "dataPostagem": datetime.now().isoformat() #ISO 8601 (ex: 20225-10-14T21:34:00)
+        "data_postagem": datetime.now().isoformat() #ISO 8601 (ex: 20225-10-14T21:34:00)
     })
 
     print(f"Aula '{titulo} criada com o ID: {aula_id}'")
     return aula_id
 
     
-def criar_atividade (db, titulo, descricao, arquivoUrl, professor_id, turma_id, data_entrega):
+def criar_atividade (db, titulo, descricao, arquivo_url, professor_id, turma_id, data_entrega):
     
     # Valida se o professor existe e tem o papel correto
-    professor_ref = db.collection("Usuarios").document("professor_id").get()
-    if not professor_ref.exist:
+    professor_ref = db.collection("Usuários").document(professor_id).get()
+    if not professor_ref.exists:
         raise ValueError(f"O usuário com ID {professor_id} não existe.")
     if professor_ref.to_dict().get("papel") != "professor":
         raise ValueError(f"O usuário com ID {professor_id} não é um professor.")
     
     # Verifica se a turma existe 
-    turma_ref = db.collection("Turma").document("turma_id").get()
+    turma_ref = db.collection("Turmas").document(turma_id).get()
     if not turma_ref.exists:
         raise ValueError(f"A turma com ID {turma_id} não existe.")
     
@@ -132,11 +132,11 @@ def criar_atividade (db, titulo, descricao, arquivoUrl, professor_id, turma_id, 
     atividade_ref.set({
         "titulo": titulo,
         "descricao": descricao,
-        "arquivoUrl": arquivoUrl,
+        "arquivo_url": arquivo_url,
         "professor_id": professor_id,
         "turma_id": turma_id,
-        "data_Entrega": data_entrega,                   # Inserida manualmente via Front
-        "data_Postagem": datetime.now().isoformat()     # gerada automaticamente
+        "data_entrega": data_entrega,                   # Inserida manualmente via Front
+        "data_postagem": datetime.now().isoformat()     # gerada automaticamente
     })
 
     print (f" Atividade '{titulo}' criada com ID: {atividade_id}")

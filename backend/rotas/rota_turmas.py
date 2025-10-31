@@ -12,11 +12,16 @@ def criar_turma_endpoint():
 
     try:
         
+        # Diagnostico -  ver o que realmente chega da requisição
+        print("Content-Type recebido:", request.content_type)
+        print("Corpo bruto (request.data):", request.data)
+        print("get_json(silent=True):", request.get_json(silent=True))
+
         # Captura o JSON enviado pelo front
-        dados = request.get_json
+        dados = request.get_json()
 
         # Armazena os tipos de dados em suas variáveis compatíveis 
-        nome = dados.get("nome"),
+        nome = dados.get("nome")
         professor_id = dados.get("professor_id")
 
         # Valida campos obrigatórios
