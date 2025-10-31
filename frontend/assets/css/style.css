@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    /* Garante que ocupe no mínimo toda a altura da tela */
+    min-height: 100vh;
+    /* Aplica degradê */
+    background: linear-gradient(to bottom, #708993, #E7F2EF);
+    /* Evita que o fundo repita */
+    background-repeat:no-repeat;
+    /* Faz com que o fundo não se mecha quando a página for rolada */
+    background-attachment: fixed;
+    /* Garante que o degradê cubra toda a tela */
+    background-size: cover;
+
+    /* Suaviza o gradiente */
+    filter: contrast(120%) brightness(110%);
+    
+    width: 100%;
+    margin: 0 auto;    
+    padding: 0rem 0rem; 
+    font-family: sans-serif;
+    /* As ferramentas abaixo ajuda a centraliza os elementos contidos no body com ajuda do grid*/
+    display: grid;
+    place-items: center;
+    align-items: center;
+}
+
+
+
+.logo {
+    /* "vw" Define a proporção do tamanho em relação a largura da tela */ 
+    width: 70vw;
+    /* Define o tamanho máximo que a imagem pode ter em uma tela */
+    max-width: 550px;
+    height: auto;
+}
+
+legend{
+    font-size: 1.3125rem;
+    /* Deixa a fonte mais grossa */
+    font-weight: 700;
+    color: #708993;
+    margin-bottom: 2rem;
+}
+
+form{
+    /* Display flex com a direção em column organiza os elementos como se estivessem em uma coluna */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 28rem;
+    padding: 2rem;
+    margin-top: 3rem;
+    margin-left: 4rem;
+    background: #fff;
+    /* Arredonda as bordas */
+    border-radius: 0.5rem;
+    /* 1. sombra horizontal; 2. sombra vertical; 3. difusão e suavidade da sombra 4. cor da sombra e opacidade */
+    box-shadow: 0 2rem 1.8rem rgba(0, 0, 0, 0.15);
+}
+
+label {
+    /* ocupa toda a largura do formulário */
+    width: 100%;
+    color: #777;
+    /* alinha o texto do label à esquerda */
+    align-self: flex-start;
+    transition: 0.15s linear;
+}
+
+/* estiliza o label quando o input interno estiver focado */
+label:focus-within {
+    color: #708993;
+}
+
+input {
+    font-size: 1.1875;
+    color: #404040;
+    /* espaçamento dentro do input */
+    padding: 1rem 0 0.5rem 0;
+    /* ocupa todo o formulário */
+    width: 100%;
+    /* none remove a borda e dotted adiciona linha pontilhada dentro da label */
+    border: none;
+    border-bottom-style: dotted;
+    /* cor da linha */
+    border-color: #a0a0a0;
+    /* Grossura da linha pontilhada */
+    border-bottom-width: 1px;
+    margin-bottom: 1rem;
+    transition: 0.15s linear;
+}
+
+/* define a cor que a linha deve assumir enquanto o input estiver selecionado */
+input:focus {
+    /* outline vazio remove o contorno azul padrão de navegodores */
+    outline: none;
+    border-color:#536066;
+}
+
+#acesso{
+    /* entender a diferença para apenas heigth */
+    line-height: 2rem;
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    /* Transforma todo o texto em MAIÚSCULAS */
+    text-transform: uppercase;
+    padding: 0.5rem 0.5rem;
+    /* Muda o cursor da seta para a mão */
+    cursor: pointer;
+    background-color: #708993;
+    border-radius: 1rem;
+    border: none;
+    margin-top: 0.5rem;
+    /* suaviza a mudanças (como o hover logo abaixo) */
+    transition: 0.25s;
+    color:#E7F2EF ;
+}
+
+/* Diferente do focus, o hover altera a cor quando o curso esta sobre ele e retorna quando é tirado */
+#acesso:hover{
+    background-color: #506671;
+}
+
+#senha{
+    border: none;
+    color: #708993;
+    cursor: pointer;
+    font-size: 0.865rem;
+    font-weight: 600;
+    transition: 0.3s;
+    margin-top: 2rem;
+}
+
+#senha:hover{
+    color: #506671;
+}
+
+
+
