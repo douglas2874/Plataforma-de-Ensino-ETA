@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from Firestore.firestore_setup import db
-from Firestore.firestore_functions import criar_usuario
+from Firestore.firestore_functions import criar_usuario, verificar_login
 
 # Cria o blueprint (um grupo de rotas)
 usuarios_bp = Blueprint("usuarios", __name__, url_prefix="/usuarios")
@@ -49,6 +49,42 @@ def criar_usuario_endpoint():
             "mensagem": str(e)
         }), 500
 
+
+
+@usuarios_bp.route("/login", methods=["POST"])
+def login_usuario():
+    try: 
+        dados= request.get_json
+
+        if not dados:
+            return jsonify({
+                "status":"erro",
+                "mensagem": "NEnhum dado recebido."
+            }), 400 #requisição inválida
+
+        email=dados.get("email")
+        senha= dados.get("senha")
+
+        if not email or not senha:
+            return jsonify({
+                "status": "erro",
+                "mensagem": "Email e senha são obrigatórios."
+            }), 400 #requisição inválida
         
+        resultado = verificar_login(email, senha)
 
-
+        if resultado["status"] == "erro":
+            return jsonify(resultado),401 #credenciais incorretas
+        
+        return jsonify({
+            "status": "sucesso",
+            "mensagem": "Login realizado com sucesso!",
+            "usuario": resultado["usuario"]
+        }),200 #sucesso
+    
+    except Exception as e:
+        print("Erro na rota/login:", e)
+        return jsonify({
+            "status":"erro",
+            "mensagem": "Erro interno servidor."
+        }), 500 #erro interno
