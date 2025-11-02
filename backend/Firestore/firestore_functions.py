@@ -143,4 +143,49 @@ def criar_atividade (db, titulo, descricao, arquivo_url, professor_id, turma_id,
     return atividade_id
 
 
+def verificar_login(email:str , senha_digitada:str):
+    try:
+        # Acessa a coleção Usuários e procura a existencia de algum com o email inserido
+        usuarios = db.collectio("Usuários").where("email", "==", email).get()
+
+        if not usuarios:
+            return {
+                "status": "erro",
+                "mensagem": "Usuário não encontrado."
+            }
+        
+        # Com isso, caso haja dois usuários com o mesmo email, ele ira guardar apenas o primeiro encontrado
+        usuario = usuarios[0].to_dict()
+
+        #Acessa aos dados do usuário e pega a senha que esta armazenada no campo "senha"
+        senha_hash_banco = usuario.get("senha")
+
+        # compara a senha inserida pelo usuário com a senha armazenada
+        senha_ok = bcrypt.checkpw(senha_digitada.encode("utf-8"), senha_hash_banco.encode("utf-8"))
+
+        if not senha_ok:
+            return{
+                "status": "erro",
+                "mensagem": "Senha incorreta."
+            }
+
+        # Se passou pela verificação do email e senha retorna
+        return{
+            "status": "sucesso",
+            "usuario":{
+                "nome": usuario.get("nome"),
+                "email": usuario.get("email"),
+                "papel": usuario.get("papel"),
+                "turma_id": usuario.get("usuario_id")
+            }
+        }    
+     
+    except Exception as e:
+        print("Erro ao verificar login:", e)
+        return{
+            "status": "erro",
+            "mensagem": "Erro interno no servidor."
+        }  
+
+
 
