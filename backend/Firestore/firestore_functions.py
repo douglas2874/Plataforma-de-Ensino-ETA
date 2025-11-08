@@ -146,7 +146,7 @@ def criar_atividade (db, titulo, descricao, arquivo_url, professor_id, turma_id,
 def verificar_login(email:str , senha_digitada:str):
     try:
         # Acessa a coleção Usuários e procura a existencia de algum com o email inserido
-        usuarios = db.collectio("Usuários").where("email", "==", email).get()
+        usuarios = db.collection("Usuários").where("email", "==", email).get()
 
         if not usuarios:
             return {

@@ -54,7 +54,12 @@ def criar_usuario_endpoint():
 @usuarios_bp.route("/login", methods=["POST"])
 def login_usuario():
     try: 
-        dados= request.get_json
+
+        print(" Content-Type recebido:", request.content_type)
+        print(" Corpo bruto (request.data):", request.data)
+        print(" get_json(silent=True):", request.get_json(silent=True))
+
+        dados= request.get_json()
 
         if not dados:
             return jsonify({
